@@ -1,10 +1,15 @@
-import {
+import type {
   SunTimingApiRequest,
-  SunTimingApiResponse,
   SunTimingResults,
-} from '../../types/SunTiming';
+} from '../../types/aunTiming';
 
 const API_URL = 'https://api.sunrisesunset.io/json';
+
+// Helper type for conditional return
+type GetSunTimingReturn<T extends SunTimingApiRequest> =
+  T extends Required<Pick<SunTimingApiRequest, 'date_start' | 'date_end'>>
+    ? SunTimingResults[]
+    : SunTimingResults;
 
 /**
  * Fetch sun timing data from SunriseSunset.io
@@ -12,9 +17,9 @@ const API_URL = 'https://api.sunrisesunset.io/json';
  * @returns the `results` object on success
  * @throws on network error or non-OK status
  */
-export async function getSunTimingService(
-  params: SunTimingApiRequest,
-): Promise<SunTimingResults> {
+async function getSunTimingService<T extends SunTimingApiRequest>(
+  params: T,
+): Promise<GetSunTimingReturn<T>> {
   const queryParams = new URLSearchParams({
     lat: params.lat.toString(),
     lng: params.lng.toString(),
@@ -36,7 +41,7 @@ export async function getSunTimingService(
     throw new Error(`Network error: ${res.status} ${res.statusText}`);
   }
 
-  const data = (await res.json()) satisfies SunTimingApiResponse;
+  const data = await res.json();
 
   if (data.status !== 'OK') {
     throw new Error(`API error: ${data.status}`);
@@ -44,3 +49,5 @@ export async function getSunTimingService(
 
   return data.results;
 }
+
+export { getSunTimingService };
