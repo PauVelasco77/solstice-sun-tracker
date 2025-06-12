@@ -12,7 +12,7 @@ const API_URL = 'https://api.sunrisesunset.io/json';
  * @returns the `results` object on success
  * @throws on network error or non-OK status
  */
-export async function getSunTiming(
+export async function getSunTimingService(
   params: SunTimingApiRequest,
 ): Promise<SunTimingResults> {
   const queryParams = new URLSearchParams({
