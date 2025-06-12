@@ -1,5 +1,34 @@
+import { useEffect, useState } from 'react';
+import { useApi } from './hooks/useApi';
+import { SunTimingResults } from './types/aunTiming';
+
 function App() {
-  return <div>Hello World</div>;
+  const [sunTiming, setSunTiming] = useState<SunTimingResults[] | null>(null);
+  const { getSunTimingRange } = useApi();
+
+  useEffect(() => {
+    getSunTimingRange({
+      lat: 38.907192,
+      lng: -77.036873,
+      date_start: '2025-06-12',
+      date_end: '2025-06-30',
+    }).then(setSunTiming);
+  }, [getSunTimingRange]);
+
+  return (
+    <div>
+      <h1>Today's Daylight Info</h1>
+      <div>
+        {sunTiming?.map((sunTiming) => (
+          <div key={sunTiming.date}>
+            <p>Sunrise: {sunTiming.sunrise}</p>
+            <p>Sunset: {sunTiming.sunset}</p>
+            <p>Day Length: {sunTiming.day_length}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
 }
 
 export default App;
