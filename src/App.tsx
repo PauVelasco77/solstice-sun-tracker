@@ -1,10 +1,12 @@
 import { useEffect, useState } from 'react';
 import { useApi } from './hooks/useApi';
 import { SunTimingResults } from './types/sunTiming';
+import { useSolstice } from './hooks/useSolstice';
 
 function App() {
   const [sunTiming, setSunTiming] = useState<SunTimingResults[] | null>(null);
   const { getSunTimingRange } = useApi();
+  const { getLongestDay } = useSolstice();
 
   useEffect(() => {
     getSunTimingRange({
@@ -12,8 +14,11 @@ function App() {
       lng: -77.036873,
       date_start: '2025-06-12',
       date_end: '2025-06-30',
-    }).then(setSunTiming);
-  }, [getSunTimingRange]);
+    }).then((sunTiming) => {
+      setSunTiming(sunTiming);
+      console.log(getLongestDay(sunTiming));
+    });
+  }, [getSunTimingRange, getLongestDay]);
 
   return (
     <div>
