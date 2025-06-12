@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useApi } from './hooks/useApi';
-import { SunTimingResults } from './types/aunTiming';
+import { SunTimingResults } from './types/sunTiming';
 
 function App() {
   const [sunTiming, setSunTiming] = useState<SunTimingResults[] | null>(null);

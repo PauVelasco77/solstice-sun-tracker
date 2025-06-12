@@ -1,5 +1,5 @@
 import { useCallback } from 'react';
-import { SunTimingApiRequest } from '../types/aunTiming';
+import { SunTimingApiRequest } from '../types/sunTiming';
 import { getSunTimingService } from '../services/sunTiming';
 
 export const useApi = () => {

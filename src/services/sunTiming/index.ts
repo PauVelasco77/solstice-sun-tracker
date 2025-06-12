@@ -1,7 +1,7 @@
 import type {
   SunTimingApiRequest,
   SunTimingResults,
-} from '../../types/aunTiming';
+} from '../../types/sunTiming';
 
 const API_URL = 'https://api.sunrisesunset.io/json';
 
