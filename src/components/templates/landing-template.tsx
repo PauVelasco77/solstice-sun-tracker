@@ -1,4 +1,4 @@
-import { HeroCountdown } from '../features/hero-section/hero-countdown.tsx/hero-countdown';
+import { HeroCountdown } from '../hero-countdown.tsx/hero-countdown';
 import { motion } from 'framer-motion';
 import { SunTimingResults } from '@/types/sunTiming';
 import { use } from 'react';
