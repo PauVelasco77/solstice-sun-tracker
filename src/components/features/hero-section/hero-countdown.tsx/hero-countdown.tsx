@@ -1,4 +1,4 @@
-import NumberFlow, { continuous } from '@number-flow/react';
+import NumberFlow, { NumberFlowGroup } from '@number-flow/react';
 import { useEffect, useState } from 'react';
 
 interface HeroCountdownProps {
@@ -25,57 +25,61 @@ export const HeroCountdown = ({ solsticeDate }: HeroCountdownProps) => {
   const seconds = Math.floor((countdown % (1000 * 60)) / 1000);
 
   return (
-    <div className="flex min-w-full items-center gap-12">
-      <div>
-        <NumberFlow
-          className="text-8xl font-medium tracking-tighter whitespace-pre-wrap text-black dark:text-white"
-          value={days}
-          format={{
-            style: 'unit',
-            unitDisplay: 'short',
-            unit: 'day',
-            minimumIntegerDigits: 2,
-          }}
-        />
+    <NumberFlowGroup>
+      <div className="flex min-w-full items-center gap-12 tabular-nums">
+        <div>
+          <NumberFlow
+            trend={-1}
+            className="text-8xl font-medium tracking-tighter whitespace-pre-wrap text-black dark:text-white"
+            value={days}
+            format={{
+              style: 'unit',
+              unitDisplay: 'short',
+              unit: 'day',
+              minimumIntegerDigits: 2,
+            }}
+          />
+        </div>
+        <div>
+          <NumberFlow
+            trend={-1}
+            className="text-8xl font-medium tracking-tighter whitespace-pre-wrap text-black dark:text-white"
+            value={hours}
+            format={{
+              style: 'unit',
+              unitDisplay: 'short',
+              unit: 'hour',
+              minimumIntegerDigits: 2,
+            }}
+          />
+        </div>
+        <div>
+          <NumberFlow
+            trend={-1}
+            className="text-8xl font-medium tracking-tighter whitespace-pre-wrap text-black dark:text-white"
+            value={minutes}
+            format={{
+              style: 'unit',
+              unitDisplay: 'short',
+              unit: 'minute',
+              minimumIntegerDigits: 2,
+            }}
+          />
+        </div>
+        <div>
+          <NumberFlow
+            trend={-1}
+            className="text-8xl font-medium tracking-tighter whitespace-pre-wrap text-black dark:text-white"
+            value={seconds}
+            format={{
+              style: 'unit',
+              unitDisplay: 'short',
+              unit: 'second',
+              minimumIntegerDigits: 2,
+            }}
+          />
+        </div>
       </div>
-      <div>
-        <NumberFlow
-          className="text-8xl font-medium tracking-tighter whitespace-pre-wrap text-black dark:text-white"
-          value={hours}
-          format={{
-            style: 'unit',
-            unitDisplay: 'short',
-            unit: 'hour',
-            minimumIntegerDigits: 2,
-          }}
-        />
-      </div>
-      <div>
-        <NumberFlow
-          plugins={[continuous]}
-          className="text-8xl font-medium tracking-tighter whitespace-pre-wrap text-black dark:text-white"
-          value={minutes}
-          format={{
-            style: 'unit',
-            unitDisplay: 'short',
-            unit: 'minute',
-            minimumIntegerDigits: 2,
-          }}
-        />
-      </div>
-      <div>
-        <NumberFlow
-          plugins={[continuous]}
-          className="text-8xl font-medium tracking-tighter whitespace-pre-wrap text-black dark:text-white"
-          value={seconds}
-          format={{
-            style: 'unit',
-            unitDisplay: 'short',
-            unit: 'second',
-            minimumIntegerDigits: 2,
-          }}
-        />
-      </div>
-    </div>
+    </NumberFlowGroup>
   );
 };
