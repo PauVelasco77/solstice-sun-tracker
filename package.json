@@ -5,20 +5,23 @@
   "type": "module",
   "license": "MIT",
   "scripts": {
+    "phoenix": "rimraf bun.lock node_modules && bun install",
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "format": "prettier --write ."
+    "format": "prettier --write .",
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
+    "@number-flow/react": "^0.5.10",
     "@tailwindcss/vite": "^4.1.10",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "lucide-react": "^0.515.0",
-    "motion": "^12.17.3",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
+    "rimraf": "^6.0.1",
     "tailwind-merge": "^3.3.1",
     "tailwindcss": "^4.1.10"
   },
