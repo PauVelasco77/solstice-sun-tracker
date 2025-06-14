@@ -2,7 +2,7 @@ import { HeroCountdown } from '../hero-countdown.tsx/hero-countdown';
 import { motion } from 'framer-motion';
 import { SunTimingResults } from '@/types/sunTiming';
 import { use } from 'react';
-import { ScrollProgress } from '../magicui/scroll-progress';
+import { ScrollProgress } from '../ui/scroll-progress';
 
 export default function LandingTemplate({
   solsticeDatePromise,
