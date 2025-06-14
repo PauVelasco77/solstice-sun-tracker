@@ -2,6 +2,7 @@ import { HeroCountdown } from '../hero-countdown.tsx/hero-countdown';
 import { motion } from 'framer-motion';
 import { SunTimingResults } from '@/types/sunTiming';
 import { use } from 'react';
+import { ScrollProgress } from '../magicui/scroll-progress';
 
 export default function LandingTemplate({
   solsticeDatePromise,
@@ -15,6 +16,7 @@ export default function LandingTemplate({
 
   return (
     <div className="grid min-h-dvh min-w-dvw grid-rows-[auto_1fr_auto] justify-center">
+      <ScrollProgress />
       <header>
         <motion.h1
           className="text-foreground mt-10 text-4xl font-medium tracking-tight sm:text-9xl"
