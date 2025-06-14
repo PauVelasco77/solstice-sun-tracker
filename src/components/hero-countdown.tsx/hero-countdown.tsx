@@ -36,47 +36,45 @@ export const HeroCountdown = ({ solsticeDate }: HeroCountdownProps) => {
       });
     }, 1000);
     return () => clearInterval(interval);
-  }, [solsticeDate]);
+  }, [getCountdownValues, solsticeDate]);
 
   const { days, hours, minutes, seconds } = countdown;
 
   return (
     <NumberFlowGroup>
-      <div className="flex min-w-full items-center gap-12 tabular-nums">
+      <div className="flex min-w-full items-center gap-10 tabular-nums">
         <div>
           <NumberFlow
             trend={-1}
-            className="text-8xl font-medium tracking-tighter whitespace-pre-wrap"
+            className="font-mono text-8xl font-medium tracking-tighter"
             value={days}
             format={{
               style: 'unit',
-              unitDisplay: 'short',
+              unitDisplay: 'narrow',
               unit: 'day',
-              minimumIntegerDigits: 2,
             }}
           />
         </div>
         <div>
           <NumberFlow
             trend={-1}
-            className="text-8xl font-medium tracking-tighter whitespace-pre-wrap"
+            className="font-mono text-8xl font-medium tracking-tighter"
             value={hours}
             format={{
               style: 'unit',
-              unitDisplay: 'short',
+              unitDisplay: 'narrow',
               unit: 'hour',
-              minimumIntegerDigits: 2,
             }}
           />
         </div>
         <div>
           <NumberFlow
             trend={-1}
-            className="text-8xl font-medium tracking-tighter whitespace-pre-wrap"
+            className="font-mono text-8xl font-medium tracking-tighter"
             value={minutes}
             format={{
               style: 'unit',
-              unitDisplay: 'short',
+              unitDisplay: 'narrow',
               unit: 'minute',
               minimumIntegerDigits: 2,
             }}
@@ -85,11 +83,11 @@ export const HeroCountdown = ({ solsticeDate }: HeroCountdownProps) => {
         <div>
           <NumberFlow
             trend={-1}
-            className="text-8xl font-medium tracking-tighter whitespace-pre-wrap"
+            className="font-mono text-8xl font-medium tracking-tighter"
             value={seconds}
             format={{
               style: 'unit',
-              unitDisplay: 'short',
+              unitDisplay: 'narrow',
               unit: 'second',
               minimumIntegerDigits: 2,
             }}
