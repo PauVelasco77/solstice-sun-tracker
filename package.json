@@ -19,6 +19,7 @@
     "@motionone/react": "^10.16.4",
     "@number-flow/react": "^0.5.10",
     "@radix-ui/react-aspect-ratio": "^1.1.7",
+    "@radix-ui/react-select": "^2.2.5",
     "@tailwindcss/vite": "^4.1.10",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
