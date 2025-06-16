@@ -91,13 +91,7 @@ function ModalCard({
   onClose,
 }: ModalCardProps) {
   return (
-    <motion.div
-      className="fixed top-1/2 left-1/2 z-50 -translate-x-1/2 -translate-y-1/2 transform"
-      style={{
-        width: 'fit-content',
-        height: 'fit-content',
-      }}
-    >
+    <motion.div className="fixed top-1/2 left-1/2 z-50 h-fit w-fit -translate-x-1/2 -translate-y-1/2 transform">
       <motion.div
         transition={{
           type: 'spring',
