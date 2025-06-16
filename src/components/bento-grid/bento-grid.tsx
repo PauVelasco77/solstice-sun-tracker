@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import { motion, AnimatePresence, LayoutGroup } from 'framer-motion';
 import { Badge } from '../ui/badge';
 import { X } from 'lucide-react';
@@ -16,53 +16,16 @@ interface Card {
 
 interface CardProps extends Pick<Card, 'image' | 'title' | 'category' | 'id'> {}
 
-interface CardsProps {
-  cards: CardProps[];
-  setIndex: (index: number | false) => void;
-}
+interface CardsProps extends React.PropsWithChildren {}
 
 interface ModalCardProps extends Card {
   onClose: () => void;
 }
 
-function Cards({ cards, setIndex }: CardsProps) {
-  const getBentoGridClass = (index: number): string => {
-    switch (index) {
-      case 1:
-        return 'md:row-span-4';
-      case 3:
-        return 'md:row-span-2';
-      default:
-        return 'md:row-span-3';
-    }
-  };
-
+function Cards({ children }: CardsProps) {
   return (
     <div className="grid h-full w-full grid-cols-2 grid-rows-4 justify-center gap-4 p-4 md:grid-rows-6">
-      {cards.map((card, index) => (
-        <div
-          key={card.id}
-          className={`col-span-1 p-0 md:col-span-1 ${getBentoGridClass(index)}`}
-        >
-          <motion.div
-            transition={{
-              duration: 0.3,
-              ease: 'easeInOut',
-            }}
-            whileHover={{ scale: 0.98 }}
-            className="h-full w-full cursor-pointer overflow-hidden rounded-lg shadow-lg"
-            onClick={() => setIndex(index)}
-            layoutId={card.id}
-          >
-            <Card
-              id={card.id}
-              image={card.image}
-              title={card.title}
-              category={card.category}
-            />
-          </motion.div>
-        </div>
-      ))}
+      {children}
     </div>
   );
 }
@@ -157,15 +120,55 @@ function ModalCard({
 export function BentoGrid({ cards }: { cards: Card[] }) {
   const [selectedIndex, setSelectedIndex] = useState<number | false>(false);
 
-  const handleCloseModal = () => {
+  const handleCloseModal = useCallback(() => {
     setSelectedIndex(false);
-  };
+  }, []);
+
+  const handleSetIndex = useCallback((index: number) => {
+    setSelectedIndex(index);
+  }, []);
+
+  const getBentoGridClass = useCallback((index: number): string => {
+    switch (index) {
+      case 1:
+        return 'md:row-span-4';
+      case 3:
+        return 'md:row-span-2';
+      default:
+        return 'md:row-span-3';
+    }
+  }, []);
 
   return (
     <div className="flex h-screen items-center justify-center bg-gray-100 dark:bg-gray-900">
       <LayoutGroup>
         <AnimatePresence>
-          <Cards cards={cards} setIndex={setSelectedIndex} />
+          <Cards>
+            {cards.map((card, index) => (
+              <div
+                key={card.id}
+                className={`col-span-1 p-0 md:col-span-1 ${getBentoGridClass(index)}`}
+              >
+                <motion.div
+                  transition={{
+                    duration: 0.3,
+                    ease: 'easeInOut',
+                  }}
+                  whileHover={{ scale: 0.98 }}
+                  className="h-full w-full cursor-pointer overflow-hidden rounded-lg shadow-lg"
+                  onClick={() => handleSetIndex(index)}
+                  layoutId={card.id}
+                >
+                  <Card
+                    id={card.id}
+                    image={card.image}
+                    title={card.title}
+                    category={card.category}
+                  />
+                </motion.div>
+              </div>
+            ))}
+          </Cards>
 
           {selectedIndex !== false && (
             <motion.div
