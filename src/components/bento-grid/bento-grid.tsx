@@ -6,7 +6,7 @@ import { Button } from '../ui/button';
 import { Card as CardUI, CardTitle } from '../ui/card';
 import { AspectRatio } from '../ui/aspect-ratio';
 
-interface BentoCard {
+interface Card {
   id: string;
   title: string;
   image: string;
@@ -14,15 +14,15 @@ interface BentoCard {
   category: string;
 }
 
-interface CardProps {
-  image: string;
-  title: string;
-  category: string;
-}
+interface CardProps extends Pick<Card, 'image' | 'title' | 'category' | 'id'> {}
 
 interface CardsProps {
-  cards: BentoCard[];
+  cards: CardProps[];
   setIndex: (index: number | false) => void;
+}
+
+interface ModalCardProps extends Card {
+  onClose: () => void;
 }
 
 function Cards({ cards, setIndex }: CardsProps) {
@@ -54,7 +54,8 @@ function Cards({ cards, setIndex }: CardsProps) {
             onClick={() => setIndex(index)}
             layoutId={card.id}
           >
-            <BentoCard
+            <Card
+              id={card.id}
               image={card.image}
               title={card.title}
               category={card.category}
@@ -66,7 +67,7 @@ function Cards({ cards, setIndex }: CardsProps) {
   );
 }
 
-function BentoCard({ image, title, category }: CardProps) {
+function Card({ image, title, category }: CardProps) {
   return (
     <CardUI className="relative h-full w-full overflow-hidden p-0">
       <img src={image} alt={title} className="h-full w-full object-cover" />
@@ -81,13 +82,7 @@ function BentoCard({ image, title, category }: CardProps) {
   );
 }
 
-interface ModalCardProps extends CardProps {
-  onClose: () => void;
-  description: string;
-  id: string;
-}
-
-function BentoModalCard({
+function ModalCard({
   image,
   title,
   category,
@@ -165,7 +160,7 @@ function BentoModalCard({
   );
 }
 
-export function BentoGrid({ cards }: { cards: BentoCard[] }) {
+export function BentoGrid({ cards }: { cards: Card[] }) {
   const [selectedIndex, setSelectedIndex] = useState<number | false>(false);
 
   const handleCloseModal = () => {
@@ -195,7 +190,7 @@ export function BentoGrid({ cards }: { cards: BentoCard[] }) {
 
           {selectedIndex !== false && (
             <>
-              <BentoModalCard
+              <ModalCard
                 onClose={handleCloseModal}
                 category={cards[selectedIndex].category}
                 description={cards[selectedIndex].description}
