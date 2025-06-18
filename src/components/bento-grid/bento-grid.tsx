@@ -23,7 +23,7 @@ interface ModalCardProps extends Card {
 }
 
 const Cards = memo(({ children }: CardsProps) => (
-  <div className="grid h-full w-full grid-cols-2 grid-rows-4 justify-center gap-4 p-4 md:grid-rows-6">
+  <div className="grid h-full w-full grid-cols-9 grid-rows-5 justify-center gap-4 p-4">
     {children}
   </div>
 ));
@@ -110,10 +110,18 @@ export function BentoGrid({ cards }: { cards: Card[] }) {
 
   const getBentoGridClass = useCallback((index: number): string => {
     switch (index) {
+      case 0:
+        return 'col-span-3 row-span-3';
       case 1:
-        return 'md:row-span-4';
+        return 'col-span-2 row-span-3 col-start-4 row-start-3';
+      case 2:
+        return 'col-span-3 row-span-2 col-start-4 row-start-1';
       case 3:
-        return 'md:row-span-2';
+        return 'col-span-4 row-span-3 col-start-6 row-start-3';
+      case 4:
+        return 'col-span-3 row-span-2 col-start-1 row-start-4';
+      case 5:
+        return 'col-span-3 row-span-2 col-start-7 row-start-1';
       default:
         return 'md:row-span-3';
     }
@@ -124,10 +132,7 @@ export function BentoGrid({ cards }: { cards: Card[] }) {
       <LayoutGroup>
         <Cards>
           {cards.map((card, index) => (
-            <div
-              key={card.id}
-              className={`col-span-1 p-0 md:col-span-1 ${getBentoGridClass(index)}`}
-            >
+            <div key={card.id} className={`p-0 ${getBentoGridClass(index)}`}>
               <motion.div
                 whileHover={{ scale: 0.98 }}
                 transition={{ duration: 0.25 }}
