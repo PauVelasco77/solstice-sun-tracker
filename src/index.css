@@ -96,7 +96,17 @@
   }
   body {
     @apply bg-background text-foreground;
-    @apply bg-background m-0 flex min-h-screen items-center justify-center overflow-hidden p-0;
+    @apply bg-background m-0 flex min-h-screen items-center justify-center p-0;
+  }
+}
+
+@layer utilities {
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
   }
 }
 
