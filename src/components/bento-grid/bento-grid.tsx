@@ -128,7 +128,7 @@ export function BentoGrid({ cards }: { cards: Card[] }) {
   }, []);
 
   return (
-    <div className="flex h-screen items-center justify-center bg-gray-100 dark:bg-gray-900">
+    <div className="flex h-screen items-center justify-center">
       <LayoutGroup>
         <Cards>
           {cards.map((card, index) => (
