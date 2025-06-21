@@ -48,15 +48,15 @@ export default function App() {
     <Suspense fallback={<BigSpinner />}>
       <ScrollProgress />
 
-      <div className="relative min-h-dvh w-fit max-w-5xl">
-        <div className="h-dvh">
+      <div className="relative h-dvh w-fit max-w-5xl snap-y snap-mandatory overflow-y-scroll">
+        <div className="h-dvh snap-start">
           <Meteors />
           <LandingTemplate solsticeDatePromise={solsticeDatePromise} />
         </div>
-        <div className="h-dvh">
+        <div className="h-dvh snap-start">
           <DescriptionTemplate />
         </div>
-        <div className="h-dvh">
+        <div className="h-dvh snap-start">
           <BentoGridTemplate />
         </div>
       </div>
