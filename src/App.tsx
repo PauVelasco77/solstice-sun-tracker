@@ -5,6 +5,10 @@ import { useSolstice } from './hooks/useSolstice';
 import { CITIES } from './data/cities';
 import { SelectCity } from './components/select-city';
 import { useLocalStorage } from './hooks/useLocalStorage';
+import BentoGridTemplate from './components/templates/bento-template';
+import DescriptionTemplate from './components/templates/description-template';
+import { ScrollProgress } from './components/ui/scroll-progress';
+import { Meteors } from './components/ui/meteors';
 
 const LOCAL_STORAGE_KEY = 'solstice-location';
 
@@ -42,10 +46,20 @@ export default function App() {
 
   return (
     <Suspense fallback={<BigSpinner />}>
-      <LandingTemplate
-        solsticeDatePromise={solsticeDatePromise}
-        sunTimingPromise={sunTimingRangePromise}
-      />
+      <ScrollProgress />
+
+      <div className="relative min-h-dvh w-fit max-w-5xl">
+        <div className="h-dvh">
+          <Meteors />
+          <LandingTemplate solsticeDatePromise={solsticeDatePromise} />
+        </div>
+        <div className="h-dvh">
+          <DescriptionTemplate />
+        </div>
+        <div className="h-dvh">
+          <BentoGridTemplate />
+        </div>
+      </div>
     </Suspense>
   );
 }
