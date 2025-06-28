@@ -32,7 +32,7 @@ export default tseslint.config(
       'prettier/prettier': 'warn',
       '@typescript-eslint/no-empty-object-type': 'off',
       'react-refresh/only-export-components': [
-        'warn',
+        'off',
         { allowConstantExport: true },
       ],
     },
