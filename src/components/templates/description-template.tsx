@@ -1,7 +1,7 @@
 export default function DescriptionTemplate() {
   return (
-    <div className="flex h-full items-center justify-center">
-      <p className="text-foreground text-2xl tracking-tight">
+    <div className="flex h-full min-h-screen items-center justify-center px-8">
+      <p className="text-foreground max-w-4xl text-xl leading-relaxed tracking-tight md:text-2xl">
         The "revetlla de Sant Joan," celebrated on the night of June 23rd to
         24th, is an ancient festival linked to the summer solstice and deeply
         connected to fire. Traditionally, bonfires are lit and firecrackers set
