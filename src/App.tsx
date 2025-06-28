@@ -1,5 +1,4 @@
-import { Suspense, useMemo, useRef } from 'react';
-import { motion, useScroll, useTransform } from 'motion/react';
+import { Suspense, useMemo } from 'react';
 import LandingTemplate from './components/templates/landing-template';
 import { useApi } from './hooks/useApi';
 import { useSolstice } from './hooks/useSolstice';
@@ -12,36 +11,6 @@ import { ScrollProgress } from './components/ui/scroll-progress';
 import { Meteors } from './components/ui/meteors';
 
 const LOCAL_STORAGE_KEY = 'solstice-location';
-
-function ParallaxSection({
-  children,
-  className = '',
-}: {
-  children: React.ReactNode;
-  className?: string;
-}) {
-  const ref = useRef<HTMLElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ['start end', 'end start'],
-  });
-
-  const y = useTransform(scrollYProgress, [0, 1], [-50, 50]);
-
-  return (
-    <motion.section
-      ref={ref}
-      className={`relative h-screen w-full flex-shrink-0 snap-start snap-always ${className}`}
-      style={{ y }}
-      initial={{ opacity: 0 }}
-      whileInView={{ opacity: 1 }}
-      transition={{ duration: 0.8, ease: 'easeOut' }}
-      viewport={{ once: true, amount: 0.2 }}
-    >
-      {children}
-    </motion.section>
-  );
-}
 
 export default function App() {
   const { getSunTimingRange } = useApi();
@@ -80,18 +49,18 @@ export default function App() {
       <ScrollProgress />
 
       <div className="h-screen snap-y snap-mandatory overflow-y-auto scroll-smooth">
-        <ParallaxSection>
+        <div className="relative h-screen w-full flex-shrink-0 snap-start snap-always">
           <Meteors />
           <LandingTemplate solsticeDatePromise={solsticeDatePromise} />
-        </ParallaxSection>
+        </div>
 
-        <ParallaxSection>
+        <div className="relative h-screen w-full flex-shrink-0 snap-start snap-always">
           <DescriptionTemplate />
-        </ParallaxSection>
+        </div>
 
-        <ParallaxSection className="overflow-hidden">
+        <div className="relative h-screen w-full flex-shrink-0 snap-start snap-always overflow-auto">
           <BentoGridTemplate />
-        </ParallaxSection>
+        </div>
       </div>
     </Suspense>
   );
