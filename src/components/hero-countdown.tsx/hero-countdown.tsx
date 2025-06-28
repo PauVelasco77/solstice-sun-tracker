@@ -1,5 +1,6 @@
 import NumberFlow, { NumberFlowGroup } from '@number-flow/react';
 import { useCallback, useEffect, useState } from 'react';
+import { ScrollReveal } from '../ui/scroll-reveal';
 
 interface HeroCountdownProps {
   solsticeDate: Date;
@@ -43,56 +44,64 @@ export const HeroCountdown = ({ solsticeDate }: HeroCountdownProps) => {
   return (
     <NumberFlowGroup>
       <div className="flex w-full items-center justify-center gap-2 tabular-nums sm:gap-4 md:gap-6 lg:gap-10">
-        <div className="text-center">
-          <NumberFlow
-            trend={-1}
-            className="font-mono text-2xl font-medium tracking-tighter sm:text-4xl md:text-6xl lg:text-8xl"
-            value={days}
-            format={{
-              style: 'unit',
-              unitDisplay: 'narrow',
-              unit: 'day',
-            }}
-          />
-        </div>
-        <div className="text-center">
-          <NumberFlow
-            trend={-1}
-            className="font-mono text-2xl font-medium tracking-tighter sm:text-4xl md:text-6xl lg:text-8xl"
-            value={hours}
-            format={{
-              style: 'unit',
-              unitDisplay: 'narrow',
-              unit: 'hour',
-            }}
-          />
-        </div>
-        <div className="text-center">
-          <NumberFlow
-            trend={-1}
-            className="font-mono text-2xl font-medium tracking-tighter sm:text-4xl md:text-6xl lg:text-8xl"
-            value={minutes}
-            format={{
-              style: 'unit',
-              unitDisplay: 'narrow',
-              unit: 'minute',
-              minimumIntegerDigits: 2,
-            }}
-          />
-        </div>
-        <div className="text-center">
-          <NumberFlow
-            trend={-1}
-            className="font-mono text-2xl font-medium tracking-tighter sm:text-4xl md:text-6xl lg:text-8xl"
-            value={seconds}
-            format={{
-              style: 'unit',
-              unitDisplay: 'narrow',
-              unit: 'second',
-              minimumIntegerDigits: 2,
-            }}
-          />
-        </div>
+        <ScrollReveal animation="scaleIn" delay={0.1} duration={0.6}>
+          <div className="text-center">
+            <NumberFlow
+              trend={-1}
+              className="font-mono text-2xl font-medium tracking-tighter sm:text-4xl md:text-6xl lg:text-8xl"
+              value={days}
+              format={{
+                style: 'unit',
+                unitDisplay: 'narrow',
+                unit: 'day',
+              }}
+            />
+          </div>
+        </ScrollReveal>
+        <ScrollReveal animation="scaleIn" delay={0.2} duration={0.6}>
+          <div className="text-center">
+            <NumberFlow
+              trend={-1}
+              className="font-mono text-2xl font-medium tracking-tighter sm:text-4xl md:text-6xl lg:text-8xl"
+              value={hours}
+              format={{
+                style: 'unit',
+                unitDisplay: 'narrow',
+                unit: 'hour',
+              }}
+            />
+          </div>
+        </ScrollReveal>
+        <ScrollReveal animation="scaleIn" delay={0.3} duration={0.6}>
+          <div className="text-center">
+            <NumberFlow
+              trend={-1}
+              className="font-mono text-2xl font-medium tracking-tighter sm:text-4xl md:text-6xl lg:text-8xl"
+              value={minutes}
+              format={{
+                style: 'unit',
+                unitDisplay: 'narrow',
+                unit: 'minute',
+                minimumIntegerDigits: 2,
+              }}
+            />
+          </div>
+        </ScrollReveal>
+        <ScrollReveal animation="scaleIn" delay={0.4} duration={0.6}>
+          <div className="text-center">
+            <NumberFlow
+              trend={-1}
+              className="font-mono text-2xl font-medium tracking-tighter sm:text-4xl md:text-6xl lg:text-8xl"
+              value={seconds}
+              format={{
+                style: 'unit',
+                unitDisplay: 'narrow',
+                unit: 'second',
+                minimumIntegerDigits: 2,
+              }}
+            />
+          </div>
+        </ScrollReveal>
       </div>
     </NumberFlowGroup>
   );

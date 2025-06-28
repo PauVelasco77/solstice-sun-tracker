@@ -2,6 +2,7 @@
 
 import { cn } from '@/lib/utils';
 import React, { useEffect, useState } from 'react';
+import { ScrollReveal } from './scroll-reveal';
 
 interface MeteorsProps {
   number?: number;
@@ -44,21 +45,23 @@ export const Meteors = ({
   }, [number, minDelay, maxDelay, minDuration, maxDuration, angle]);
 
   return (
-    <>
-      {[...meteorStyles].map((style, idx) => (
-        // Meteor Head
-        <span
-          key={idx}
-          style={{ ...style }}
-          className={cn(
-            'animate-meteor pointer-events-none absolute size-0.5 rotate-[var(--angle)] rounded-full bg-zinc-500 shadow-[0_0_0_1px_#ffffff10]',
-            className,
-          )}
-        >
-          {/* Meteor Tail */}
-          <div className="pointer-events-none absolute top-1/2 -z-10 h-px w-[30px] -translate-y-1/2 bg-gradient-to-r from-zinc-500 to-transparent md:w-[50px]" />
-        </span>
-      ))}
-    </>
+    <ScrollReveal animation="fadeIn" duration={2} delay={0.5}>
+      <>
+        {[...meteorStyles].map((style, idx) => (
+          // Meteor Head
+          <span
+            key={idx}
+            style={{ ...style }}
+            className={cn(
+              'animate-meteor pointer-events-none absolute size-0.5 rotate-[var(--angle)] rounded-full bg-zinc-500 shadow-[0_0_0_1px_#ffffff10]',
+              className,
+            )}
+          >
+            {/* Meteor Tail */}
+            <div className="pointer-events-none absolute top-1/2 -z-10 h-px w-[30px] -translate-y-1/2 bg-gradient-to-r from-zinc-500 to-transparent md:w-[50px]" />
+          </span>
+        ))}
+      </>
+    </ScrollReveal>
   );
 };
