@@ -1,14 +1,11 @@
 import { HeroCountdown } from '../hero-countdown.tsx/hero-countdown';
 import { motion } from 'motion/react';
-import { use } from 'react';
 
 export default function LandingTemplate({
-  solsticeDatePromise,
+  santJoanDate,
 }: {
-  solsticeDatePromise: Promise<Date>;
+  santJoanDate: Date;
 }) {
-  const solsticeDate = use(solsticeDatePromise);
-
   return (
     <div className="flex h-full min-h-screen flex-col items-center justify-center p-4">
       <div className="w-full max-w-4xl text-center">
@@ -29,7 +26,7 @@ export default function LandingTemplate({
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8 }}
           >
-            <HeroCountdown solsticeDate={solsticeDate} />
+            <HeroCountdown solsticeDate={santJoanDate} />
           </motion.div>
         </main>
       </div>

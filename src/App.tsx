@@ -1,48 +1,14 @@
-import { Suspense, useMemo } from 'react';
+import { Suspense } from 'react';
 import LandingTemplate from './components/templates/landing-template';
-import { useApi } from './hooks/useApi';
-import { useSolstice } from './hooks/useSolstice';
-import { CITIES } from './data/cities';
-import { SelectCity } from './components/select-city';
-import { useLocalStorage } from './hooks/useLocalStorage';
+import { useSantJoan } from './hooks/useSantJoan';
 import BentoGridTemplate from './components/templates/bento-template';
 import DescriptionTemplate from './components/templates/description-template';
 import { ScrollProgress } from './components/ui/scroll-progress';
 import { Meteors } from './components/ui/meteors';
 
-const LOCAL_STORAGE_KEY = 'solstice-location';
-
 export default function App() {
-  const { getSunTimingRange } = useApi();
-  const { getLongestDay } = useSolstice();
-  const { setValue: setSelectedCity, value: selectedCity } = useLocalStorage<
-    (typeof CITIES)[number] | null
-  >(LOCAL_STORAGE_KEY, null);
-
-  const handleCitySelect = (cityName: string) => {
-    const city = CITIES.find((c) => c.name === cityName);
-    if (city) setSelectedCity(city);
-  };
-
-  const sunTimingRangePromise = useMemo(() => {
-    if (!selectedCity) return Promise.reject(new Error('No location'));
-    return getSunTimingRange({
-      lat: selectedCity.lat,
-      lng: selectedCity.lng,
-      date_start: '2025-06-12',
-      date_end: '2025-06-30',
-    });
-  }, [getSunTimingRange, selectedCity]);
-
-  const solsticeDatePromise = useMemo(async () => {
-    const sunTiming = await sunTimingRangePromise;
-    const longestDay = getLongestDay(sunTiming);
-    return new Date(longestDay.date);
-  }, [sunTimingRangePromise, getLongestDay]);
-
-  if (!selectedCity) {
-    return <SelectCity onValueChange={handleCitySelect} />;
-  }
+  const { getNextSantJoan } = useSantJoan();
+  const santJoanDate = getNextSantJoan;
 
   return (
     <Suspense fallback={<BigSpinner />}>
@@ -51,7 +17,7 @@ export default function App() {
       <div className="h-screen snap-y snap-mandatory overflow-y-auto scroll-smooth">
         <div className="relative h-screen w-full flex-shrink-0 snap-start snap-always">
           <Meteors />
-          <LandingTemplate solsticeDatePromise={solsticeDatePromise} />
+          <LandingTemplate santJoanDate={santJoanDate} />
         </div>
 
         <div className="relative h-screen w-full flex-shrink-0 snap-start snap-always">
