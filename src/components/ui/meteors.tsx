@@ -27,7 +27,11 @@ export const Meteors = ({
   );
 
   useEffect(() => {
-    const styles = [...new Array(number)].map(() => ({
+    // Reduce meteors on mobile for better performance
+    const isMobile = window.innerWidth < 768;
+    const meteorCount = isMobile ? Math.floor(number / 2) : number;
+
+    const styles = [...new Array(meteorCount)].map(() => ({
       '--angle': -angle + 'deg',
       top: '-5%',
       left: `calc(0% + ${Math.floor(Math.random() * window.innerWidth)}px)`,
@@ -52,7 +56,7 @@ export const Meteors = ({
           )}
         >
           {/* Meteor Tail */}
-          <div className="pointer-events-none absolute top-1/2 -z-10 h-px w-[50px] -translate-y-1/2 bg-gradient-to-r from-zinc-500 to-transparent" />
+          <div className="pointer-events-none absolute top-1/2 -z-10 h-px w-[30px] -translate-y-1/2 bg-gradient-to-r from-zinc-500 to-transparent md:w-[50px]" />
         </span>
       ))}
     </>
