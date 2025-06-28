@@ -130,7 +130,18 @@ export function BentoGrid({ cards }: { cards: Card[] }) {
       <LayoutGroup>
         <Cards>
           {cards.map((card, index) => (
-            <div key={card.id} className={`p-0 ${getBentoGridClass(index)}`}>
+            <motion.div
+              key={card.id}
+              className={`p-0 ${getBentoGridClass(index)}`}
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              viewport={{ once: true, amount: 0.2 }}
+              transition={{
+                duration: 0.6,
+                delay: index * 0.1,
+                ease: 'easeOut',
+              }}
+            >
               <motion.div
                 whileHover={{ scale: 0.98 }}
                 whileTap={{ scale: 0.95 }}
@@ -146,7 +157,7 @@ export function BentoGrid({ cards }: { cards: Card[] }) {
                   category={card.category}
                 />
               </motion.div>
-            </div>
+            </motion.div>
           ))}
         </Cards>
 
