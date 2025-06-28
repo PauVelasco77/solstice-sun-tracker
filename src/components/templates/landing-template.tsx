@@ -1,5 +1,5 @@
 import { HeroCountdown } from '../hero-countdown.tsx/hero-countdown';
-import { motion } from 'framer-motion';
+import { motion } from 'motion/react';
 import { use } from 'react';
 
 export default function LandingTemplate({

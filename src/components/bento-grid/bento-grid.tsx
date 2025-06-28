@@ -1,5 +1,5 @@
 import { useCallback, useState, memo } from 'react';
-import { motion, AnimatePresence, LayoutGroup } from 'framer-motion';
+import { motion, AnimatePresence, LayoutGroup } from 'motion/react';
 import { Badge } from '../ui/badge';
 import { X } from 'lucide-react';
 import { Button } from '../ui/button';
