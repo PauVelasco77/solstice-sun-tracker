@@ -23,13 +23,13 @@ interface ModalCardProps extends Card {
 }
 
 const Cards = memo(({ children }: CardsProps) => (
-  <div className="grid h-full w-full grid-cols-9 grid-rows-5 justify-center gap-4 p-4">
+  <div className="grid h-full w-full grid-cols-1 gap-4 p-4 sm:grid-cols-2 md:grid-cols-9 md:grid-rows-5 md:gap-4">
     {children}
   </div>
 ));
 
 const Card = memo(({ image, title, category }: CardProps) => (
-  <CardUI className="relative h-full w-full overflow-hidden p-0">
+  <CardUI className="relative h-64 w-full overflow-hidden p-0 md:h-full">
     <img
       src={image}
       alt={title}
@@ -38,10 +38,12 @@ const Card = memo(({ image, title, category }: CardProps) => (
     />
     <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
     <div className="absolute right-0 bottom-0 left-0 p-4">
-      <Badge className="mb-2 inline-block rounded-full bg-white/20 px-2 py-1 text-xs text-white backdrop-blur-sm">
+      <Badge className="mb-2 inline-block rounded-full bg-white/20 px-3 py-1 text-sm text-white backdrop-blur-sm">
         {category}
       </Badge>
-      <CardTitle className="text-lg font-bold text-white">{title}</CardTitle>
+      <CardTitle className="text-base font-bold text-white md:text-lg">
+        {title}
+      </CardTitle>
     </div>
   </CardUI>
 ));
@@ -58,20 +60,19 @@ const ModalCard = ({
     <motion.div
       layoutId={id}
       transition={{ type: 'spring', stiffness: 200, damping: 20 }}
-      className="relative max-h-[90vh] w-[90vw] max-w-2xl overflow-hidden rounded-xl bg-white shadow-2xl dark:bg-gray-800"
+      className="relative max-h-[90vh] w-[95vw] max-w-2xl overflow-hidden rounded-xl bg-white shadow-2xl md:w-[90vw] dark:bg-gray-800"
     >
       <AspectRatio ratio={21 / 9}>
         <img src={image} alt={title} className="h-full w-full object-cover" />
       </AspectRatio>
 
-      {/* Overlay button and content OUTSIDE layoutId */}
       <Button
         variant="ghost"
         size="icon"
-        className="absolute top-4 right-4 z-10 rounded-full bg-black/50 text-white transition-colors hover:bg-black/70"
+        className="absolute top-3 right-3 z-10 aspect-square w-fit rounded-full bg-black/50 p-0 text-white transition-colors hover:bg-black/70"
         onClick={onClose}
       >
-        <X className="h-4 w-4 text-white" />
+        <X className="h-5 w-5 text-white md:h-4 md:w-4" />
       </Button>
 
       <motion.div
@@ -79,7 +80,7 @@ const ModalCard = ({
         animate={{ opacity: 1, y: 0 }}
         exit={{ opacity: 0, y: 20 }}
         transition={{ duration: 0.3, ease: 'easeInOut', delay: 0.1 }}
-        className="p-6"
+        className="p-4 md:p-6"
       >
         <div className="mb-3 flex items-center gap-3">
           <Badge className="inline-block rounded-full border bg-gray-100 px-3 py-1 text-sm text-gray-800 dark:bg-gray-700 dark:text-gray-200">
@@ -87,11 +88,11 @@ const ModalCard = ({
           </Badge>
         </div>
 
-        <CardTitle className="mb-4 text-2xl font-bold text-gray-900 dark:text-white">
+        <CardTitle className="mb-4 text-xl font-bold text-gray-900 md:text-2xl dark:text-white">
           {title}
         </CardTitle>
 
-        <p className="leading-relaxed text-gray-600 dark:text-gray-300">
+        <p className="text-sm leading-relaxed text-gray-600 md:text-base dark:text-gray-300">
           {description}
         </p>
       </motion.div>
@@ -109,33 +110,31 @@ export function BentoGrid({ cards }: { cards: Card[] }) {
   );
 
   const getBentoGridClass = useCallback((index: number): string => {
-    switch (index) {
-      case 0:
-        return 'col-span-3 row-span-3';
-      case 1:
-        return 'col-span-2 row-span-3 col-start-4 row-start-3';
-      case 2:
-        return 'col-span-3 row-span-2 col-start-4 row-start-1';
-      case 3:
-        return 'col-span-4 row-span-3 col-start-6 row-start-3';
-      case 4:
-        return 'col-span-3 row-span-2 col-start-1 row-start-4';
-      case 5:
-        return 'col-span-3 row-span-2 col-start-7 row-start-1';
-      default:
-        return 'md:row-span-3';
-    }
+    // Mobile: all cards take full width
+    // Desktop: complex grid layout
+    const mobileClass = 'w-full';
+    const desktopClasses = {
+      0: 'md:col-span-3 md:row-span-3',
+      1: 'md:col-span-2 md:row-span-3 md:col-start-4 md:row-start-3',
+      2: 'md:col-span-3 md:row-span-2 md:col-start-4 md:row-start-1',
+      3: 'md:col-span-4 md:row-span-3 md:col-start-6 md:row-start-3',
+      4: 'md:col-span-3 md:row-span-2 md:col-start-1 md:row-start-4',
+      5: 'md:col-span-3 md:row-span-2 md:col-start-7 md:row-start-1',
+    };
+
+    return `${mobileClass} ${desktopClasses[index as keyof typeof desktopClasses] || 'md:row-span-3'}`;
   }, []);
 
   return (
-    <div className="flex h-screen items-center justify-center">
+    <div className="flex min-h-screen items-center justify-center py-4 md:h-screen md:py-0">
       <LayoutGroup>
         <Cards>
           {cards.map((card, index) => (
             <div key={card.id} className={`p-0 ${getBentoGridClass(index)}`}>
               <motion.div
                 whileHover={{ scale: 0.98 }}
-                transition={{ duration: 0.25 }}
+                whileTap={{ scale: 0.95 }}
+                transition={{ duration: 0.2 }}
                 layoutId={card.id}
                 className="h-full w-full cursor-pointer overflow-hidden rounded-lg shadow-lg"
                 onClick={() => handleSetIndex(index)}

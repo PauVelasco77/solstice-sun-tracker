@@ -42,11 +42,11 @@ export const HeroCountdown = ({ solsticeDate }: HeroCountdownProps) => {
 
   return (
     <NumberFlowGroup>
-      <div className="flex min-w-full items-center gap-10 tabular-nums">
-        <div>
+      <div className="flex w-full items-center justify-center gap-2 tabular-nums sm:gap-4 md:gap-6 lg:gap-10">
+        <div className="text-center">
           <NumberFlow
             trend={-1}
-            className="font-mono text-8xl font-medium tracking-tighter"
+            className="font-mono text-2xl font-medium tracking-tighter sm:text-4xl md:text-6xl lg:text-8xl"
             value={days}
             format={{
               style: 'unit',
@@ -55,10 +55,10 @@ export const HeroCountdown = ({ solsticeDate }: HeroCountdownProps) => {
             }}
           />
         </div>
-        <div>
+        <div className="text-center">
           <NumberFlow
             trend={-1}
-            className="font-mono text-8xl font-medium tracking-tighter"
+            className="font-mono text-2xl font-medium tracking-tighter sm:text-4xl md:text-6xl lg:text-8xl"
             value={hours}
             format={{
               style: 'unit',
@@ -67,10 +67,10 @@ export const HeroCountdown = ({ solsticeDate }: HeroCountdownProps) => {
             }}
           />
         </div>
-        <div>
+        <div className="text-center">
           <NumberFlow
             trend={-1}
-            className="font-mono text-8xl font-medium tracking-tighter"
+            className="font-mono text-2xl font-medium tracking-tighter sm:text-4xl md:text-6xl lg:text-8xl"
             value={minutes}
             format={{
               style: 'unit',
@@ -80,10 +80,10 @@ export const HeroCountdown = ({ solsticeDate }: HeroCountdownProps) => {
             }}
           />
         </div>
-        <div>
+        <div className="text-center">
           <NumberFlow
             trend={-1}
-            className="font-mono text-8xl font-medium tracking-tighter"
+            className="font-mono text-2xl font-medium tracking-tighter sm:text-4xl md:text-6xl lg:text-8xl"
             value={seconds}
             format={{
               style: 'unit',
