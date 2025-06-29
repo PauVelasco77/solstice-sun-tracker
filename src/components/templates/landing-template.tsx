@@ -11,7 +11,10 @@ export default function LandingTemplate({
       <div className="w-full max-w-4xl text-center">
         <header>
           <ScrollReveal animation="fadeInDown" duration={0.8}>
-            <h1 className="text-foreground text-2xl font-medium tracking-tight sm:text-4xl md:text-6xl lg:text-8xl xl:text-9xl">
+            <h1
+              id="hero-heading"
+              className="text-foreground text-2xl font-medium tracking-tight sm:text-4xl md:text-6xl lg:text-8xl xl:text-9xl"
+            >
               <span className="text-gradient">Revetlla de Sant Joan</span>
             </h1>
           </ScrollReveal>
@@ -19,7 +22,18 @@ export default function LandingTemplate({
         <main className="mt-6 md:mt-10">
           <ScrollReveal animation="fadeInLeft" delay={0.3} duration={0.8}>
             <div className="text-foreground">
-              <HeroCountdown solsticeDate={santJoanDate} />
+              <div
+                role="timer"
+                aria-live="polite"
+                aria-label="Countdown to Sant Joan celebration"
+                aria-describedby="countdown-description"
+              >
+                <HeroCountdown solsticeDate={santJoanDate} />
+              </div>
+              <p id="countdown-description" className="sr-only">
+                Live countdown showing the time remaining until the Revetlla de
+                Sant Joan celebration begins
+              </p>
             </div>
           </ScrollReveal>
         </main>

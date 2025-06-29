@@ -41,9 +41,15 @@ export const HeroCountdown = ({ solsticeDate }: HeroCountdownProps) => {
 
   const { days, hours, minutes, seconds } = countdown;
 
+  // Screen reader announcement for countdown
+  const countdownText = `${days} days, ${hours} hours, ${minutes} minutes, and ${seconds} seconds remaining until Sant Joan`;
+
   return (
     <NumberFlowGroup>
-      <div className="flex w-full items-center justify-center gap-2 tabular-nums sm:gap-4 md:gap-6 lg:gap-10">
+      <div
+        className="flex w-full items-center justify-center gap-2 tabular-nums sm:gap-4 md:gap-6 lg:gap-10"
+        aria-label={countdownText}
+      >
         <ScrollReveal animation="scaleIn" delay={0.1} duration={0.6}>
           <div className="text-center">
             <NumberFlow
@@ -55,6 +61,7 @@ export const HeroCountdown = ({ solsticeDate }: HeroCountdownProps) => {
                 unitDisplay: 'narrow',
                 unit: 'day',
               }}
+              aria-label={`${days} days remaining`}
             />
           </div>
         </ScrollReveal>
@@ -69,6 +76,7 @@ export const HeroCountdown = ({ solsticeDate }: HeroCountdownProps) => {
                 unitDisplay: 'narrow',
                 unit: 'hour',
               }}
+              aria-label={`${hours} hours remaining`}
             />
           </div>
         </ScrollReveal>
@@ -84,6 +92,7 @@ export const HeroCountdown = ({ solsticeDate }: HeroCountdownProps) => {
                 unit: 'minute',
                 minimumIntegerDigits: 2,
               }}
+              aria-label={`${minutes} minutes remaining`}
             />
           </div>
         </ScrollReveal>
@@ -99,9 +108,15 @@ export const HeroCountdown = ({ solsticeDate }: HeroCountdownProps) => {
                 unit: 'second',
                 minimumIntegerDigits: 2,
               }}
+              aria-label={`${seconds} seconds remaining`}
             />
           </div>
         </ScrollReveal>
+      </div>
+
+      {/* Hidden live region for screen reader announcements */}
+      <div aria-live="polite" aria-atomic="true" className="sr-only">
+        {countdownText}
       </div>
     </NumberFlowGroup>
   );

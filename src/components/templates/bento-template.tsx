@@ -25,7 +25,7 @@ const stories = [
     image:
       'https://www.santjordihostels.com/wp-content/uploads/sant-joan-festival-02.png',
     description:
-      'Fireworks are another key element of San Juan. They symbolize light, joy, and the victory of summer over darkness. In cities like Valencia or A Coruña, large public firework displays accompany the bonfires. It’s also common for people—especially kids and teens—to set off firecrackers in the streets. Although this depends on local regulations, the noise and light are essential to the festive atmosphere. Fireworks help create the magical feeling of the night and reflect the excitement of entering a new season filled with warmth, energy, and community gatherings.',
+      "Fireworks are another key element of San Juan. They symbolize light, joy, and the victory of summer over darkness. In cities like Valencia or A Coruña, large public firework displays accompany the bonfires. It's also common for people—especially kids and teens—to set off firecrackers in the streets. Although this depends on local regulations, the noise and light are essential to the festive atmosphere. Fireworks help create the magical feeling of the night and reflect the excitement of entering a new season filled with warmth, energy, and community gatherings.",
     category: 'Festival',
   },
   {
@@ -34,7 +34,7 @@ const stories = [
     image:
       'https://www.pavisucre.cat/wp-content/uploads/2020/06/Coca-de-Sant-Joan.jpg',
     description:
-      'San Juan is a time for socializing with friends and family. Many people organize outdoor dinners on the beach, in town squares, or at home. Food is often shared potluck-style, including dishes like empanadas, grilled sardines, and the traditional “coca” in Catalonia. Music, dancing, and community events are common, adding to the festive mood. More than a religious celebration, it’s a social and cultural tradition that marks the arrival of summer with a relaxed, joyful atmosphere. It’s all about enjoying the night, eating well, and sharing laughs and stories under the stars.',
+      'San Juan is a time for socializing with friends and family. Many people organize outdoor dinners on the beach, in town squares, or at home. Food is often shared potluck-style, including dishes like empanadas, grilled sardines, and the traditional "coca" in Catalonia. Music, dancing, and community events are common, adding to the festive mood. More than a religious celebration, it\'s a social and cultural tradition that marks the arrival of summer with a relaxed, joyful atmosphere. It\'s all about enjoying the night, eating well, and sharing laughs and stories under the stars.',
     category: 'Gastronomy',
   },
   {
@@ -57,5 +57,12 @@ const stories = [
 ];
 
 export default function BentoGridTemplate() {
-  return <BentoGrid cards={stories} />;
+  return (
+    <div>
+      <h2 id="gallery-heading" className="sr-only">
+        Sant Joan Traditions Gallery
+      </h2>
+      <BentoGrid cards={stories} />
+    </div>
+  );
 }

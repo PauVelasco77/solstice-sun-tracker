@@ -11,24 +11,56 @@ export default function App() {
 
   return (
     <Suspense fallback={<BigSpinner />}>
-      <div className="h-screen snap-y snap-mandatory overflow-y-auto scroll-smooth">
-        <div className="relative h-screen w-full flex-shrink-0 snap-start snap-always">
+      {/* Skip Navigation Link */}
+      <a
+        href="#main-content"
+        className="focus:bg-primary focus:text-primary-foreground focus:ring-ring sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:rounded-md focus:px-4 focus:py-2 focus:ring-2 focus:outline-none"
+      >
+        Skip to main content
+      </a>
+
+      <div
+        className="h-screen max-w-full snap-y snap-mandatory overflow-x-hidden overflow-y-auto scroll-smooth"
+        role="main"
+        id="main-content"
+      >
+        <section
+          className="relative h-screen w-full flex-shrink-0 snap-start snap-always overflow-hidden"
+          aria-labelledby="hero-heading"
+          role="banner"
+        >
           <Meteors />
           <LandingTemplate santJoanDate={santJoanDate} />
-        </div>
+        </section>
 
-        <div className="relative h-screen w-full flex-shrink-0 snap-start snap-always">
+        <section
+          className="relative h-screen w-full flex-shrink-0 snap-start snap-always overflow-hidden"
+          aria-labelledby="description-heading"
+        >
           <DescriptionTemplate />
-        </div>
+        </section>
 
-        <div className="relative h-screen w-full flex-shrink-0 snap-start snap-always overflow-auto">
+        <section
+          className="relative h-screen w-full flex-shrink-0 snap-start snap-always overflow-auto"
+          aria-labelledby="gallery-heading"
+        >
           <BentoGridTemplate />
-        </div>
+        </section>
       </div>
     </Suspense>
   );
 }
 
 function BigSpinner() {
-  return <h2>🌀 Loading...</h2>;
+  return (
+    <div
+      role="status"
+      aria-live="polite"
+      aria-label="Loading application content"
+      className="flex h-screen items-center justify-center overflow-hidden"
+    >
+      <h2 className="text-2xl">🌀 Loading...</h2>
+      <span className="sr-only">Please wait while the application loads</span>
+    </div>
+  );
 }

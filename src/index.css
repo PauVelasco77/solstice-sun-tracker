@@ -108,13 +108,29 @@
     @apply border-border outline-ring/50;
     @apply box-border;
   }
-  body {
-    @apply bg-background text-foreground m-0 flex min-h-screen items-center justify-center p-0;
-    overflow-x: hidden;
-  }
 
   html {
-    overflow-x: hidden;
+    overflow-x: hidden !important;
+    max-width: 100vw;
+  }
+
+  body {
+    @apply bg-background text-foreground m-0 flex min-h-screen items-center justify-center p-0;
+    overflow-x: hidden !important;
+    max-width: 100vw;
+    position: relative;
+  }
+
+  /* Prevent horizontal scroll on all elements */
+  * {
+    max-width: 100%;
+  }
+
+  /* Root container overflow protection */
+  #root {
+    overflow-x: hidden !important;
+    max-width: 100vw;
+    min-height: 100vh;
   }
 
   /* Mobile optimizations */
@@ -143,6 +159,41 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-rendering: optimizeLegibility;
+  }
+
+  /* High contrast mode support */
+  @media (prefers-contrast: high) {
+    :root {
+      --border: oklch(0 0 0 / 30%);
+      --ring: oklch(0.8 0.15 65);
+    }
+  }
+
+  /* Reduce motion for users who prefer it */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+
+  /* Focus improvements */
+  *:focus {
+    outline: 2px solid var(--ring);
+    outline-offset: 2px;
+  }
+
+  *:focus:not(:focus-visible) {
+    outline: none;
+  }
+
+  *:focus-visible {
+    outline: 2px solid var(--ring);
+    outline-offset: 2px;
   }
 }
 
@@ -178,6 +229,40 @@
   * {
     scrollbar-width: thin;
     scrollbar-color: rgba(128, 128, 128, 0.5) transparent;
+  }
+
+  /* Screen reader only content */
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  .sr-only:focus {
+    position: static;
+    width: auto;
+    height: auto;
+    padding: inherit;
+    margin: inherit;
+    overflow: visible;
+    clip: auto;
+    white-space: normal;
+  }
+
+  /* Focus visible improvements */
+  .focus-visible-ring {
+    @apply focus-visible:ring-ring focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none;
+  }
+
+  /* Skip link styles */
+  .skip-link {
+    @apply focus:bg-primary focus:text-primary-foreground focus:ring-ring sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:rounded-md focus:px-4 focus:py-2 focus:ring-2 focus:outline-none;
   }
 }
 

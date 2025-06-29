@@ -35,7 +35,8 @@ export const Meteors = ({
     const styles = [...new Array(meteorCount)].map(() => ({
       '--angle': -angle + 'deg',
       top: '-5%',
-      left: `calc(0% + ${Math.floor(Math.random() * window.innerWidth)}px)`,
+      // Use percentage-based positioning to prevent horizontal overflow
+      left: `${Math.random() * 100}%`,
       animationDelay: Math.random() * (maxDelay - minDelay) + minDelay + 's',
       animationDuration:
         Math.floor(Math.random() * (maxDuration - minDuration) + minDuration) +
@@ -46,7 +47,11 @@ export const Meteors = ({
 
   return (
     <ScrollReveal animation="fadeIn" duration={2} delay={0.5}>
-      <>
+      <div
+        aria-hidden="true"
+        role="presentation"
+        className="pointer-events-none absolute inset-0 overflow-hidden"
+      >
         {[...meteorStyles].map((style, idx) => (
           // Meteor Head
           <span
@@ -56,12 +61,13 @@ export const Meteors = ({
               'animate-meteor pointer-events-none absolute size-0.5 rotate-[var(--angle)] rounded-full bg-zinc-500 shadow-[0_0_0_1px_#ffffff10]',
               className,
             )}
+            aria-hidden="true"
           >
             {/* Meteor Tail */}
             <div className="pointer-events-none absolute top-1/2 -z-10 h-px w-[30px] -translate-y-1/2 bg-gradient-to-r from-zinc-500 to-transparent md:w-[50px]" />
           </span>
         ))}
-      </>
+      </div>
     </ScrollReveal>
   );
 };
