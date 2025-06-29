@@ -147,6 +147,36 @@
     textarea {
       min-height: 44px;
     }
+
+    /* Optimize animations for mobile performance */
+    * {
+      /* Use GPU acceleration for better performance */
+      transform: translateZ(0);
+      backface-visibility: hidden;
+      perspective: 1000px;
+    }
+
+    /* Reduce backdrop-blur on mobile for better performance */
+    .backdrop-blur-sm {
+      backdrop-filter: none;
+      background-color: rgba(var(--background), 0.9);
+    }
+
+    /* Optimize image rendering on mobile */
+    img {
+      image-rendering: optimizeSpeed;
+      image-rendering: -webkit-optimize-contrast;
+    }
+
+    /* Optimize motion components for mobile */
+    [data-framer-name] {
+      will-change: transform, opacity;
+    }
+
+    /* Optimize card animations */
+    .cursor-pointer {
+      will-change: transform;
+    }
   }
 
   /* Improve scroll behavior */
