@@ -55,6 +55,7 @@ const Card = memo(
   }: CardProps) => (
     <CardUI
       className="focus-within:ring-ring relative h-64 w-full cursor-pointer overflow-hidden p-0 focus-within:ring-2 focus-within:ring-offset-2 md:h-full"
+      style={{ boxShadow: 'none' }}
       role="gridcell"
       onClick={onClick}
       onKeyDown={onKeyDown}
