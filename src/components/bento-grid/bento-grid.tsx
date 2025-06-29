@@ -1,5 +1,10 @@
 import { useCallback, useState, memo, useEffect, useRef } from 'react';
-import { motion, AnimatePresence, LayoutGroup } from 'motion/react';
+import {
+  motion,
+  AnimatePresence,
+  LayoutGroup,
+  useReducedMotion,
+} from 'motion/react';
 import { Badge } from '../ui/badge';
 import { X } from 'lucide-react';
 import { Button } from '../ui/button';
@@ -32,6 +37,25 @@ interface CardProps {
 interface ModalCardProps extends Card {
   readonly onClose: () => void;
 }
+
+/**
+ * Detect if user is on mobile device
+ */
+const useIsMobile = (): boolean => {
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768 || 'ontouchstart' in window);
+    };
+
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
+  return isMobile;
+};
 
 const Cards = memo(({ children }: CardsProps) => (
   <div
@@ -92,6 +116,8 @@ const ModalCard = ({
 }: ModalCardProps) => {
   const modalRef = useRef<HTMLDivElement>(null);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
+  const shouldReduceMotion = useReducedMotion();
+  const isMobile = useIsMobile();
 
   // Focus management
   useEffect(() => {
@@ -142,6 +168,21 @@ const ModalCard = ({
     return () => document.removeEventListener('keydown', handleTabKey);
   }, []);
 
+  // Optimized animation settings for mobile
+  const modalTransition = shouldReduceMotion
+    ? { duration: 0.01 }
+    : isMobile
+      ? { type: 'tween' as const, duration: 0.2, ease: 'easeOut' as const }
+      : { type: 'spring' as const, stiffness: 300, damping: 30, mass: 0.8 };
+
+  const contentTransition = shouldReduceMotion
+    ? { duration: 0.01 }
+    : {
+        duration: isMobile ? 0.15 : 0.3,
+        ease: 'easeOut' as const,
+        delay: isMobile ? 0 : 0.1,
+      };
+
   return (
     <motion.div
       ref={modalRef}
@@ -152,9 +193,11 @@ const ModalCard = ({
       aria-describedby={`modal-description-${id}`}
     >
       <motion.div
-        layoutId={id}
-        transition={{ type: 'spring', stiffness: 200, damping: 20 }}
-        className="bg-card relative max-h-[90vh] w-[95vw] max-w-2xl overflow-hidden rounded-xl shadow-2xl md:w-[90vw]"
+        layoutId={shouldReduceMotion ? undefined : id}
+        transition={modalTransition}
+        className={`bg-card relative max-h-[90vh] w-[95vw] max-w-2xl overflow-hidden rounded-xl shadow-2xl md:w-[90vw] ${
+          isMobile ? '' : 'backdrop-blur-sm'
+        }`}
       >
         <AspectRatio ratio={21 / 9}>
           <img
@@ -168,7 +211,9 @@ const ModalCard = ({
           ref={closeButtonRef}
           variant="ghost"
           size="icon"
-          className="bg-background/80 text-foreground hover:bg-background/90 absolute top-3 right-3 z-10 aspect-square w-fit rounded-full p-0 backdrop-blur-sm transition-colors"
+          className={`bg-background/80 text-foreground hover:bg-background/90 absolute top-3 right-3 z-10 aspect-square w-fit rounded-full p-0 transition-colors ${
+            isMobile ? '' : 'backdrop-blur-sm'
+          }`}
           onClick={onClose}
           aria-label={`Close ${title} details`}
         >
@@ -179,10 +224,18 @@ const ModalCard = ({
         </Button>
 
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={
+            shouldReduceMotion
+              ? undefined
+              : { opacity: 0, y: isMobile ? 10 : 20 }
+          }
           animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: 20 }}
-          transition={{ duration: 0.3, ease: 'easeInOut', delay: 0.1 }}
+          exit={
+            shouldReduceMotion
+              ? undefined
+              : { opacity: 0, y: isMobile ? 10 : 20 }
+          }
+          transition={contentTransition}
           className="p-4 md:p-6"
         >
           <div className="mb-3 flex items-center gap-3">
@@ -214,6 +267,8 @@ export function BentoGrid({ cards }: { cards: Card[] }) {
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
   const [focusedIndex, setFocusedIndex] = useState<number>(0);
   const cardRefs = useRef<(HTMLElement | null)[]>([]);
+  const shouldReduceMotion = useReducedMotion();
+  const isMobile = useIsMobile();
 
   const handleCloseModal = useCallback(() => {
     setSelectedIndex(null);
@@ -298,58 +353,81 @@ export function BentoGrid({ cards }: { cards: Card[] }) {
     <div className="flex min-h-screen items-center justify-center py-4 md:h-screen md:py-0">
       <LayoutGroup>
         <Cards>
-          {cards.map((card, index) => (
-            <motion.div
-              key={card.id}
-              className={`p-0 ${getBentoGridClass(index)}`}
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              viewport={{ once: true, amount: 0.2 }}
-              transition={{
-                duration: 0.6,
-                delay: index * 0.1,
-                ease: 'easeOut',
-              }}
-              role="gridcell"
-            >
+          {cards.map((card, index) => {
+            // Optimize animation settings for mobile
+            const cardTransition = shouldReduceMotion
+              ? { duration: 0.01 }
+              : {
+                  duration: isMobile ? 0.4 : 0.6,
+                  delay: isMobile ? index * 0.05 : index * 0.1,
+                  ease: 'easeOut' as const,
+                };
+
+            const hoverTransition = shouldReduceMotion
+              ? { duration: 0.01 }
+              : { duration: isMobile ? 0.1 : 0.2 };
+
+            return (
               <motion.div
-                whileHover={{ scale: 0.98 }}
-                whileTap={{ scale: 0.95 }}
-                transition={{ duration: 0.2 }}
-                layoutId={card.id}
-                className="h-full w-full cursor-pointer overflow-hidden rounded-lg shadow-lg"
-                ref={(el) => {
-                  cardRefs.current[index] = el;
-                }}
+                key={card.id}
+                className={`p-0 ${getBentoGridClass(index)}`}
+                initial={shouldReduceMotion ? undefined : { opacity: 0 }}
+                whileInView={{ opacity: 1 }}
+                viewport={{ once: true, amount: isMobile ? 0.1 : 0.2 }}
+                transition={cardTransition}
+                role="gridcell"
               >
-                <Card
-                  id={card.id}
-                  image={card.image}
-                  title={card.title}
-                  category={card.category}
-                  onClick={() => handleSetIndex(index)}
-                  tabIndex={index === focusedIndex ? 0 : -1}
-                  onKeyDown={(event) => handleKeyDown(event, index)}
-                  aria-describedby={`card-description-${index}`}
-                />
-                <div id={`card-description-${index}`} className="sr-only">
-                  {card.description}
-                </div>
+                <motion.div
+                  whileHover={
+                    shouldReduceMotion || isMobile ? undefined : { scale: 0.98 }
+                  }
+                  whileTap={
+                    shouldReduceMotion
+                      ? undefined
+                      : { scale: isMobile ? 0.98 : 0.95 }
+                  }
+                  transition={hoverTransition}
+                  layoutId={shouldReduceMotion ? undefined : card.id}
+                  className="h-full w-full cursor-pointer overflow-hidden rounded-lg shadow-lg"
+                  ref={(el) => {
+                    cardRefs.current[index] = el;
+                  }}
+                >
+                  <Card
+                    id={card.id}
+                    image={card.image}
+                    title={card.title}
+                    category={card.category}
+                    onClick={() => handleSetIndex(index)}
+                    tabIndex={index === focusedIndex ? 0 : -1}
+                    onKeyDown={(event) => handleKeyDown(event, index)}
+                    aria-describedby={`card-description-${index}`}
+                  />
+                  <div id={`card-description-${index}`} className="sr-only">
+                    {card.description}
+                  </div>
+                </motion.div>
               </motion.div>
-            </motion.div>
-          ))}
+            );
+          })}
         </Cards>
 
         <AnimatePresence>
           {selectedIndex !== null && (
             <>
               <motion.div
-                initial={{ opacity: 0 }}
+                initial={shouldReduceMotion ? undefined : { opacity: 0 }}
                 animate={{ opacity: 0.8 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 0.25 }}
+                exit={shouldReduceMotion ? undefined : { opacity: 0 }}
+                transition={
+                  shouldReduceMotion
+                    ? { duration: 0.01 }
+                    : { duration: isMobile ? 0.15 : 0.25 }
+                }
                 key="overlay"
-                className="bg-background/80 fixed inset-0 z-40 cursor-pointer backdrop-blur-sm"
+                className={`bg-background/80 fixed inset-0 z-40 cursor-pointer ${
+                  isMobile ? '' : 'backdrop-blur-sm'
+                }`}
                 onClick={handleCloseModal}
                 aria-hidden="true"
               />
