@@ -206,7 +206,7 @@
     scrollbar-width: none;
   }
 
-  /* Custom scrollbar with transparent track */
+  /* Custom scrollbar with theme colors */
   ::-webkit-scrollbar {
     width: 8px;
     height: 8px;
@@ -217,18 +217,18 @@
   }
 
   ::-webkit-scrollbar-thumb {
-    background: rgba(128, 128, 128, 0.5);
+    background: var(--muted);
     border-radius: 4px;
   }
 
   ::-webkit-scrollbar-thumb:hover {
-    background: rgba(128, 128, 128, 0.7);
+    background: var(--muted-foreground);
   }
 
-  /* Firefox scrollbar styling */
+  /* Firefox scrollbar styling with theme colors */
   * {
     scrollbar-width: thin;
-    scrollbar-color: rgba(128, 128, 128, 0.5) transparent;
+    scrollbar-color: var(--muted) transparent;
   }
 
   /* Screen reader only content */

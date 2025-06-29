@@ -58,13 +58,13 @@ export const Meteors = ({
             key={idx}
             style={{ ...style }}
             className={cn(
-              'animate-meteor pointer-events-none absolute size-0.5 rotate-[var(--angle)] rounded-full bg-zinc-500 shadow-[0_0_0_1px_#ffffff10]',
+              'animate-meteor bg-accent/60 shadow-[0_0_0_1px_theme(colors.accent/20)] pointer-events-none absolute size-0.5 rotate-[var(--angle)] rounded-full',
               className,
             )}
             aria-hidden="true"
           >
             {/* Meteor Tail */}
-            <div className="pointer-events-none absolute top-1/2 -z-10 h-px w-[30px] -translate-y-1/2 bg-gradient-to-r from-zinc-500 to-transparent md:w-[50px]" />
+            <div className="from-accent/60 pointer-events-none absolute top-1/2 -z-10 h-px w-[30px] -translate-y-1/2 bg-gradient-to-r to-transparent md:w-[50px]" />
           </span>
         ))}
       </div>

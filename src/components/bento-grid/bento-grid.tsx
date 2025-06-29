@@ -68,12 +68,12 @@ const Card = memo(
         className="h-full w-full object-cover"
         loading="lazy"
       />
-      <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
+      <div className="from-background/90 absolute inset-0 bg-gradient-to-t via-transparent to-transparent" />
       <div className="absolute right-0 bottom-0 left-0 p-4">
-        <Badge className="mb-2 inline-block rounded-full bg-white/20 px-3 py-1 text-sm text-white backdrop-blur-sm">
+        <Badge className="bg-primary/20 text-foreground mb-2 inline-block rounded-full px-3 py-1 text-sm backdrop-blur-sm">
           {category}
         </Badge>
-        <CardTitle className="text-base font-bold text-white md:text-lg">
+        <CardTitle className="text-foreground text-base font-bold md:text-lg">
           {title}
         </CardTitle>
       </div>
@@ -153,7 +153,7 @@ const ModalCard = ({
       <motion.div
         layoutId={id}
         transition={{ type: 'spring', stiffness: 200, damping: 20 }}
-        className="relative max-h-[90vh] w-[95vw] max-w-2xl overflow-hidden rounded-xl bg-white shadow-2xl md:w-[90vw] dark:bg-gray-800"
+        className="bg-card relative max-h-[90vh] w-[95vw] max-w-2xl overflow-hidden rounded-xl shadow-2xl md:w-[90vw]"
       >
         <AspectRatio ratio={21 / 9}>
           <img
@@ -167,11 +167,14 @@ const ModalCard = ({
           ref={closeButtonRef}
           variant="ghost"
           size="icon"
-          className="absolute top-3 right-3 z-10 aspect-square w-fit rounded-full bg-black/50 p-0 text-white transition-colors hover:bg-black/70"
+          className="bg-background/80 text-foreground hover:bg-background/90 absolute top-3 right-3 z-10 aspect-square w-fit rounded-full p-0 backdrop-blur-sm transition-colors"
           onClick={onClose}
           aria-label={`Close ${title} details`}
         >
-          <X className="h-5 w-5 text-white md:h-4 md:w-4" aria-hidden="true" />
+          <X
+            className="text-foreground h-5 w-5 md:h-4 md:w-4"
+            aria-hidden="true"
+          />
         </Button>
 
         <motion.div
@@ -182,21 +185,21 @@ const ModalCard = ({
           className="p-4 md:p-6"
         >
           <div className="mb-3 flex items-center gap-3">
-            <Badge className="inline-block rounded-full border bg-gray-100 px-3 py-1 text-sm text-gray-800 dark:bg-gray-700 dark:text-gray-200">
+            <Badge className="bg-muted text-muted-foreground inline-block rounded-full border px-3 py-1 text-sm">
               {category}
             </Badge>
           </div>
 
           <CardTitle
             id={`modal-title-${id}`}
-            className="mb-4 text-xl font-bold text-gray-900 md:text-2xl dark:text-white"
+            className="text-card-foreground mb-4 text-xl font-bold md:text-2xl"
           >
             {title}
           </CardTitle>
 
           <p
             id={`modal-description-${id}`}
-            className="text-sm leading-relaxed text-gray-600 md:text-base dark:text-gray-300"
+            className="text-muted-foreground text-sm leading-relaxed md:text-base"
           >
             {description}
           </p>
@@ -345,7 +348,7 @@ export function BentoGrid({ cards }: { cards: Card[] }) {
                 exit={{ opacity: 0 }}
                 transition={{ duration: 0.25 }}
                 key="overlay"
-                className="fixed inset-0 z-40 cursor-pointer bg-black/80"
+                className="bg-background/80 fixed inset-0 z-40 cursor-pointer backdrop-blur-sm"
                 onClick={handleCloseModal}
                 aria-hidden="true"
               />
