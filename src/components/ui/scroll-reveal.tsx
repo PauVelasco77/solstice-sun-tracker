@@ -1,5 +1,6 @@
-import { motion } from 'motion/react';
+import { motion, useReducedMotion } from 'motion/react';
 import type { ReactNode } from 'react';
+import { useEffect, useState } from 'react';
 
 interface ScrollRevealProps {
   readonly children: ReactNode;
@@ -50,7 +51,27 @@ const animations = {
 } as const;
 
 /**
+ * Detect if user is on mobile device
+ */
+const useIsMobile = (): boolean => {
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768 || 'ontouchstart' in window);
+    };
+
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
+  return isMobile;
+};
+
+/**
  * ScrollReveal component for easy scroll-triggered animations
+ * Optimized for mobile performance
  */
 export const ScrollReveal = ({
   children,
@@ -62,17 +83,38 @@ export const ScrollReveal = ({
   className,
 }: ScrollRevealProps) => {
   const variant = animations[animation];
+  const shouldReduceMotion = useReducedMotion();
+  const isMobile = useIsMobile();
+
+  // Optimize settings for mobile
+  const optimizedDuration = shouldReduceMotion
+    ? 0.01
+    : isMobile
+      ? duration * 0.7
+      : duration;
+  const optimizedDelay = shouldReduceMotion
+    ? 0
+    : isMobile
+      ? delay * 0.5
+      : delay;
+  const optimizedThreshold = isMobile
+    ? Math.max(threshold * 0.5, 0.05)
+    : threshold;
 
   return (
     <motion.div
       className={className}
-      initial="hidden"
+      initial={shouldReduceMotion ? undefined : 'hidden'}
       whileInView="visible"
-      viewport={{ once, amount: threshold, margin: '-50px' }}
-      variants={variant}
+      viewport={{
+        once,
+        amount: optimizedThreshold,
+        margin: isMobile ? '-20px' : '-50px',
+      }}
+      variants={shouldReduceMotion ? undefined : variant}
       transition={{
-        duration,
-        delay,
+        duration: optimizedDuration,
+        delay: optimizedDelay,
         ease: 'easeOut',
       }}
     >
